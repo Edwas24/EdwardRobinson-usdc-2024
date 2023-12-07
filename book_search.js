@@ -21,11 +21,26 @@
  function findSearchTermInBooks(searchTerm, scannedTextObj) {
     /** You will need to implement your search and 
      * return the appropriate object here. */
+        
+
 
     var result = {
         "SearchTerm": "",
         "Results": []
     };
+    result.SearchTerm = searchTerm;
+    for (const key of scannedTextObj){
+        for(const value of key.Content){
+            const words = value.Text.split(/\s+/);
+            if( words.includes(searchTerm)){
+                result.Results.push({
+                    "ISBN": key.ISBN,
+                    "Page": value.Page,
+                    "Line": value.Line
+                });
+            }
+        }
+    } 
     
     return result; 
 }
@@ -39,17 +54,17 @@ const twentyLeaguesIn = [
             {
                 "Page": 31,
                 "Line": 8,
-                "Text": "now simply went on by her own momentum.  The dark-"
+                "Text": "now simply went  on  by her own momentum.  The dark-"
             },
             {
                 "Page": 31,
                 "Line": 9,
-                "Text": "ness was then profound; and however good the Canadian\'s"
+                "Text": "ness was then profound; on  and however good the Canadian\'s"
             },
             {
                 "Page": 31,
                 "Line": 10,
-                "Text": "eyes were, I asked myself how he had managed to see, and"
+                "Text": "eyes were, I asked myself  on how he had managed to see, and"
             } 
         ] 
     }
@@ -94,7 +109,7 @@ if (JSON.stringify(twentyLeaguesOut) === JSON.stringify(test1result)) {
 }
 
 /** We could choose to check that we get the right number of results. */
-const test2result = findSearchTermInBooks("the", twentyLeaguesIn); 
+const test2result = findSearchTermInBooks("ness", twentyLeaguesIn); 
 if (test2result.Results.length == 1) {
     console.log("PASS: Test 2");
 } else {
@@ -102,3 +117,34 @@ if (test2result.Results.length == 1) {
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
+const test3result = findSearchTermInBooks("p", twentyLeaguesIn); 
+if (test3result.Results.length == 0) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", twentyLeaguesOut.Results.length);
+    console.log("Received:", test3result.Results.length); }
+  
+    const test4result = findSearchTermInBooks("on", twentyLeaguesIn); 
+if (test4result.Results.length == 3) {
+    console.log("PASS: Test 4");
+} else {
+    console.log("FAIL: Test 4");
+    console.log("Expected:", twentyLeaguesOut.Results.length);
+    console.log("Received:", test4result.Results.length); }
+
+    const test5result = findSearchTermInBooks("canadian", twentyLeaguesIn); 
+    if (test5result.Results.length == 0) {
+        console.log("PASS: Test 5");
+    } else {
+        console.log("FAIL: Test 5");
+        console.log("Expected:", twentyLeaguesOut.Results.length);
+        console.log("Received:", test5result.Results.length); }
+
+        const test6result = findSearchTermInBooks("an", twentyLeaguesIn); 
+    if (test5result.Results.length == 0) {
+        console.log("PASS: Test 6");
+    } else {
+        console.log("FAIL: Test 6");
+        console.log("Expected:", twentyLeaguesOut.Results.length);
+        console.log("Received:", test6result.Results.length); }
